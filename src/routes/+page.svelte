@@ -61,8 +61,8 @@
 </script>
 
 <h1
-  class:wait={running && segmentElapsed < 1000 * 60 * 2}
-  class:go={running && segmentElapsed >= 1000 * 60 * 2}
+  class:wait={running && segmentElapsed < 1000 * 60 * 1.5}
+  class:go={running && segmentElapsed >= 1000 * 60 * 1.5}
 >
   Lift {#if weight}{weight} lbs{/if}
 </h1>
