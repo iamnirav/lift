@@ -4,10 +4,11 @@
   let now = $state(0) // updated every second to be Date.now()
   let startTime = $state(0) // timestamp the workout was started
   let restStartTime = $state(0) // timestamp this rest was started
-  let segmentsComplete = $state(0) // how many sets (including warmup) have been completed
+  let setsComplete = $state(0) // how many sets (including warmup) have been completed
   let running = $state(false) // if the workout has been started
   let weight = $state(0) // total weight
   let restDuration = $state(1000 * 60 * 2) // 2 minutes
+  let sets = $state('.5 .75 1 1 1 1 1')
 
   function start() {
     startTime = Date.now()
@@ -16,28 +17,41 @@
   }
 
   function reset() {
-    segmentsComplete = 0
+    setsComplete = 0
     running = false
     weight = 0
     restDuration = 1000 * 60 * 2
   }
 
-  function completeSegment() {
+  function completeSet() {
     restStartTime = Date.now()
-    segmentsComplete++
+    setsComplete++
   }
 
   function getWeight() {
-    const input = prompt('Enter weight:')
+    const input = prompt('Enter weight:', '' + weight)
     if (input) {
       weight = +input
     }
   }
 
   function getRest() {
-    const input = prompt('Enter rest duration (in minutes):')
+    const input = prompt(
+      'Enter rest duration (in minutes):',
+      '' + restDuration / (1000 * 60),
+    )
     if (input) {
       restDuration = 1000 * 60 * +input
+    }
+  }
+
+  function getSets() {
+    const input = prompt(
+      'Enter sets (in fractions of total weight, space-separated):',
+      '' + sets,
+    )
+    if (input) {
+      sets = input
     }
   }
 
@@ -49,16 +63,7 @@
     return () => clearInterval(interval)
   })
 
-  const segments = $derived([
-    weight / 2,
-    (weight * 3) / 4,
-    weight,
-    weight,
-    weight,
-    weight,
-    weight,
-  ])
-
+  const derivedSets = $derived(sets.split(' ').map((item) => weight * +item))
   const timeElapsed = $derived(now - startTime)
   const restTimeElapsed = $derived(now - restStartTime)
 </script>
@@ -66,21 +71,20 @@
 <h1>Lift</h1>
 
 <p>
-  {#each segments as segment, index}
+  {#each derivedSets as set, index}
     <span
-      class:complete={running && index < segmentsComplete}
+      class:complete={running && index < setsComplete}
       class:rest={running &&
-        index === segmentsComplete &&
+        index === setsComplete &&
         restTimeElapsed < restDuration}
       class:go={running &&
-        index === segmentsComplete &&
-        (restTimeElapsed >= restDuration || segmentsComplete === 0)}
-      >{segment}</span
+        index === setsComplete &&
+        (restTimeElapsed >= restDuration || setsComplete === 0)}>{set}</span
     >
   {/each}
 </p>
 
-<button onclick={completeSegment} disabled={!running}>Complete Set</button>
+<button onclick={completeSet} disabled={!running}>Complete Set</button>
 
 <p>
   Rest time: {running ? formatDate(restTimeElapsed) : '00:00'} / {formatDate(
@@ -90,6 +94,7 @@
 <p>Total time: {running ? formatDate(timeElapsed) : '00:00'}</p>
 
 <button onclick={getWeight}>Set Weight</button>
+<button onclick={getSets}>Set Sets</button>
 <button onclick={getRest}>Set Rest</button>
 <button onclick={start} disabled={running || !weight}>Start</button>
 <button onclick={reset}>Reset</button>
