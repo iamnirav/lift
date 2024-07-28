@@ -16,8 +16,11 @@ Run development server:
 npm run dev
 ```
 
-Build static site for production:
+Build and deploy:
 
 ```
 npm run build
+git add .
+git commit -m 'Build'
+git push origin main
 ```

@@ -1,1 +1,0 @@
-import{c as r,s as o,a as s,f}from"../chunks/disclose-version.DLcyMj-p.js";function l(e){var t;var a=(t=e.$$slots)==null?void 0:t.default;return a===!0?e.children:a}function i(e,a){var t=r(),n=f(t);o(n,l(a),{}),s(e,t)}export{i as component};

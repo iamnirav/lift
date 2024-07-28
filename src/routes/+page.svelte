@@ -1,14 +1,13 @@
 <script>
   import { formatDate } from '$lib/helpers'
 
-  const REST_DURATION = 1000 * 60 * 0.1 // 2 minutes
-
   let now = $state(0) // updated every second to be Date.now()
   let startTime = $state(0) // timestamp the workout was started
   let restStartTime = $state(0) // timestamp this rest was started
   let segmentsComplete = $state(0) // how many sets (including warmup) have been completed
   let running = $state(false) // if the workout has been started
   let weight = $state(0) // total weight
+  let restDuration = $state(1000 * 60 * 2) // 2 minutes
 
   function start() {
     startTime = Date.now()
@@ -20,6 +19,7 @@
     segmentsComplete = 0
     running = false
     weight = 0
+    restDuration = 1000 * 60 * 2
   }
 
   function completeSegment() {
@@ -31,6 +31,13 @@
     const input = prompt('Enter weight:')
     if (input) {
       weight = +input
+    }
+  }
+
+  function getRest() {
+    const input = prompt('Enter rest duration (in minutes):')
+    if (input) {
+      restDuration = 1000 * 60 * +input
     }
   }
 
@@ -56,9 +63,7 @@
   const restTimeElapsed = $derived(now - restStartTime)
 </script>
 
-<h1>
-  Lift{#if weight}{weight} lbs{/if}
-</h1>
+<h1>Lift</h1>
 
 <p>
   {#each segments as segment, index}
@@ -66,10 +71,10 @@
       class:complete={running && index < segmentsComplete}
       class:rest={running &&
         index === segmentsComplete &&
-        restTimeElapsed < REST_DURATION}
+        restTimeElapsed < restDuration}
       class:go={running &&
         index === segmentsComplete &&
-        (restTimeElapsed >= REST_DURATION || segmentsComplete === 0)}
+        (restTimeElapsed >= restDuration || segmentsComplete === 0)}
       >{segment}</span
     >
   {/each}
@@ -77,18 +82,26 @@
 
 <button onclick={completeSegment} disabled={!running}>Complete Set</button>
 
-<p>Rest time: {running ? formatDate(restTimeElapsed) : '00:00'}</p>
+<p>
+  Rest time: {running ? formatDate(restTimeElapsed) : '00:00'} / {formatDate(
+    restDuration,
+  )}
+</p>
 <p>Total time: {running ? formatDate(timeElapsed) : '00:00'}</p>
 
 <button onclick={getWeight}>Set Weight</button>
+<button onclick={getRest}>Set Rest</button>
 <button onclick={start} disabled={running || !weight}>Start</button>
-<button onclick={reset} disabled={!running}>Reset</button>
+<button onclick={reset}>Reset</button>
 
 <style>
   :root {
     font-family: Inter, sans-serif;
     font-feature-settings:
       'liga' 1,
+      'dlig' 1,
+      'tnum' 1,
+      'ss01' 1,
       'calt' 1; /* fix for Chrome */
   }
   @supports (font-variation-settings: normal) {
