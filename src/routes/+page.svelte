@@ -1,25 +1,22 @@
 <script>
   import { formatDate } from '$lib/helpers'
 
-  const SEGMENT_DURATION = 1000 * 60 * 2 // 2 minutes
+  const REST_DURATION = 1000 * 60 * 0.1 // 2 minutes
 
+  let now = $state(0) // updated every second to be Date.now()
   let startTime = $state(0) // timestamp the workout was started
   let segmentStartTime = $state(0) // timestamp this segment was started
-  let totalElapsed = $state(0) // amount of time elapsed since beginning of workout
-  let segmentElapsed = $state(0) // amount of time elapsed in this rest timer
   let segmentsComplete = $state(0) // how many sets (including warmup) have been completed
   let running = $state(false) // if the workout has been started
   let weight = $state(0) // total weight
 
   function start() {
     startTime = Date.now()
+    segmentStartTime = Date.now()
     running = true
   }
 
   function reset() {
-    startTime = 0
-    totalElapsed = 0
-    segmentElapsed = 0
     segmentsComplete = 0
     running = false
     weight = 0
@@ -28,7 +25,6 @@
   function completeSegment() {
     segmentStartTime = Date.now()
     segmentsComplete++
-    console.log(segmentStartTime, segmentsComplete)
   }
 
   function getWeight() {
@@ -39,23 +35,14 @@
   }
 
   $effect(() => {
-    if (!running) return
     const interval = setInterval(() => {
-      totalElapsed = Date.now() - startTime
-      if (segmentsComplete >= 1) {
-        segmentElapsed = Date.now() - segmentStartTime
-      }
-    }, 1000)
+      now = Date.now()
+    })
 
-    return () => {
-      // if a callback is provided, it will run
-      // a) immediately before the effect re-runs
-      // b) when the component is destroyed
-      clearInterval(interval)
-    }
+    return () => clearInterval(interval)
   })
 
-  const segments = $derived.by(() => [
+  const segments = $derived([
     weight / 2,
     (weight * 3) / 4,
     weight,
@@ -67,9 +54,9 @@
 </script>
 
 <h1
-  class:wait={running && segmentElapsed < SEGMENT_DURATION}
+  class:wait={running && now - segmentStartTime < REST_DURATION}
   class:go={running &&
-    (segmentElapsed >= SEGMENT_DURATION || segmentsComplete === 0)}
+    (now - segmentStartTime >= REST_DURATION || segmentsComplete === 0)}
 >
   Lift {#if weight}{weight} lbs{/if}
 </h1>
@@ -83,8 +70,8 @@
   {/each}
 </p>
 
-<p>Rest time: {formatDate(segmentElapsed)}</p>
-<p>Total time: {formatDate(totalElapsed)}</p>
+<p>Rest time: {running ? formatDate(now - segmentStartTime) : '00:00'}</p>
+<p>Total time: {running ? formatDate(now - startTime) : '00:00'}</p>
 
 <button onclick={getWeight}>Set Weight</button>
 
