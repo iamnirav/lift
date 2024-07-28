@@ -3,13 +3,13 @@
 
   const SEGMENT_DURATION = 1000 * 60 * 2 // 2 minutes
 
-  let startTime = $state(0)
-  let segmentStartTime = $state(0)
-  let totalElapsed = $state(0)
-  let segmentElapsed = $state(0)
-  let segmentsComplete = $state(0)
-  let running = $state(false)
-  let weight = $state(0)
+  let startTime = $state(0) // timestamp the workout was started
+  let segmentStartTime = $state(0) // timestamp this segment was started
+  let totalElapsed = $state(0) // amount of time elapsed since beginning of workout
+  let segmentElapsed = $state(0) // amount of time elapsed in this rest timer
+  let segmentsComplete = $state(0) // how many sets (including warmup) have been completed
+  let running = $state(false) // if the workout has been started
+  let weight = $state(0) // total weight
 
   function start() {
     startTime = Date.now()
