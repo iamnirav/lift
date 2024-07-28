@@ -19,8 +19,6 @@
   function reset() {
     setsComplete = 0
     running = false
-    weight = 0
-    restDuration = 1000 * 60 * 2
   }
 
   function completeSet() {
@@ -87,11 +85,11 @@
 <button onclick={completeSet} disabled={!running}>Complete Set</button>
 
 <p>
-  Rest time: {running ? formatDate(restTimeElapsed) : '00:00'} / {formatDate(
+  Rest: {running ? formatDate(restTimeElapsed) : '00:00'} / {formatDate(
     restDuration,
   )}
 </p>
-<p>Total time: {running ? formatDate(timeElapsed) : '00:00'}</p>
+<p>Total: {running ? formatDate(timeElapsed) : '00:00'}</p>
 
 <button onclick={getWeight}>Set Weight</button>
 <button onclick={getSets}>Set Sets</button>
