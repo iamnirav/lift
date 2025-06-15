@@ -1,14 +1,32 @@
-<script>
+<script lang="ts">
   import { formatDate } from '$lib/helpers'
 
-  let now = $state(0) // updated every second to be Date.now()
-  let startTime = $state(0) // timestamp the workout was started
-  let restStartTime = $state(0) // timestamp this rest was started
-  let setsComplete = $state(0) // how many sets (including warmup) have been completed
-  let running = $state(false) // if the workout has been started
-  let weight = $state(0) // total weight
-  let restDuration = $state(1000 * 60 * 2) // 2 minutes
-  let sets = $state('.5 .75 1 1 1 1 1')
+  function checkLocalStorage() {
+    return typeof window !== 'undefined' && window.localStorage
+  }
+
+  function read(key: string) {
+    if (checkLocalStorage()) {
+      return window.localStorage.getItem(key)
+    } else {
+      return null
+    }
+  }
+
+  function write(key: string, value: string | number) {
+    if (checkLocalStorage()) {
+      window.localStorage.setItem(key, value.toString());
+    }
+  }
+
+  let now = $state<number>(0) // updated every second to be Date.now()
+  let startTime = $state<number>(0) // timestamp the workout was started
+  let restStartTime = $state<number>(0) // timestamp this rest was started
+  let setsComplete = $state<number>(0) // how many sets (including warmup) have been completed
+  let running = $state<boolean>(false) // if the workout has been started
+  let weight = $state<number>(Number(read('weight')) || 0) // total weight
+  let restDuration = $state<number>(Number(read('restDuration')) || 1000 * 60 * 2) // 2 minutes
+  let sets = $state<string>(read('sets') || '.5 .75 1 1 1 1 1')
 
   function start() {
     startTime = Date.now()
@@ -30,16 +48,18 @@
     const input = prompt('Enter weight:', '' + weight)
     if (input) {
       weight = +input
+      write('weight', weight)
     }
   }
 
   function getRest() {
     const input = prompt(
       'Enter rest duration (in minutes):',
-      '' + restDuration / (1000 * 60),
+      (restDuration / (1000 * 60)).toString(),
     )
     if (input) {
       restDuration = 1000 * 60 * +input
+      write('restDuration', restDuration)
     }
   }
 
@@ -50,6 +70,7 @@
     )
     if (input) {
       sets = input
+      write('sets', sets)
     }
   }
 
