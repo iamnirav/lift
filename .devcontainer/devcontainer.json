@@ -12,7 +12,7 @@
    "customizations": {
        "codespaces": {
            "openFiles": [
-               "src/pages/_app.tsx"
+               "src/routes/+page.svelte"
            ]
        },
        // install some vscode extensions
@@ -20,6 +20,7 @@
            "extensions": [
                "dbaeumer.vscode-eslint",
                "svelte.svelte-vscode",
+               "esbenp.prettier-vscode",
            ]
        }
    },
