@@ -3,7 +3,7 @@
    "image": "mcr.microsoft.com/devcontainers/universal:2",
   // set minimum cpu
    "hostRequirements": {
-       "cpus": 4
+       "cpus": 2
    },
    // install dependencies and start app
    "updateContentCommand": "npm install",
