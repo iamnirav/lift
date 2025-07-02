@@ -91,10 +91,9 @@
   <div class="container">
     <h1>Lift</h1>
 
-    <div class="sets-container">
+    <p class="sets">
       {#each derivedSets as set, index}
         <span
-          class="set"
           class:complete={running && index < setsComplete}
           class:rest={running &&
             index === setsComplete &&
@@ -106,41 +105,21 @@
           {set}
         </span>
       {/each}
-    </div>
+    </p>
 
-    <div class="action-section">
-      <button class="complete-btn" onclick={completeSet} disabled={!running}>
-        Complete Set
-      </button>
-    </div>
+    <button onclick={completeSet} disabled={!running}>Complete Set</button>
 
-    <div class="timer-section">
-      <div class="timer-item">
-        <span class="timer-label">Rest</span>
-        <span class="timer-value">
-          {running ? formatDate(restTimeElapsed) : '00:00'} / {formatDate(restDuration)}
-        </span>
-      </div>
-      <div class="timer-item">
-        <span class="timer-label">Total</span>
-        <span class="timer-value">
-          {running ? formatDate(timeElapsed) : '00:00'}
-        </span>
-      </div>
-    </div>
+    <p>
+      Rest: {running ? formatDate(restTimeElapsed) : '00:00'} / {formatDate(restDuration)}
+    </p>
+    <p>Total: {running ? formatDate(timeElapsed) : '00:00'}</p>
 
     <div class="controls">
-      <div class="control-group">
-        <button class="control-btn" onclick={getWeight}>Set Weight</button>
-        <button class="control-btn" onclick={getSets}>Set Sets</button>
-        <button class="control-btn" onclick={getRest}>Set Rest</button>
-      </div>
-      <div class="control-group">
-        <button class="primary-btn" onclick={start} disabled={running || !weight}>
-          Start
-        </button>
-        <button class="secondary-btn" onclick={reset}>Reset</button>
-      </div>
+      <button onclick={getWeight}>Set Weight</button>
+      <button onclick={getSets}>Set Sets</button>
+      <button onclick={getRest}>Set Rest</button>
+      <button onclick={start} disabled={running || !weight}>Start</button>
+      <button onclick={reset}>Reset</button>
     </div>
   </div>
 </div>
@@ -164,309 +143,119 @@
 
   .app {
     min-height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 1rem;
   }
 
   .container {
-    background: white;
-    border-radius: 20px;
-    padding: 2rem;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-    width: 100%;
     max-width: 600px;
-    min-height: 500px;
+    width: 100%;
+    text-align: center;
   }
 
   h1 {
-    text-align: center;
-    font-size: 3rem;
-    font-weight: 700;
-    color: #2d3748;
-    margin: 0 0 2rem 0;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-  }
-
-  .sets-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    justify-content: center;
+    font-size: 2.5rem;
     margin-bottom: 2rem;
   }
 
-  .set {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border: 3px solid #2d3748;
-    padding: 1rem 1.5rem;
-    border-radius: 12px;
-    font-size: 1.5rem;
-    font-weight: 600;
-    min-width: 80px;
-    text-align: center;
-    transition: all 0.3s ease;
-    background: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-
-  .set.complete {
-    background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-    color: white;
-    border-color: #1e3a8a;
-    transform: scale(0.95);
-  }
-
-  .set.rest {
-    background: linear-gradient(135deg, #fbbf24, #f59e0b);
-    color: #92400e;
-    border-color: #d97706;
-    animation: pulse 2s infinite;
-  }
-
-  .set.go {
-    background: linear-gradient(135deg, #059669, #10b981);
-    color: white;
-    border-color: #047857;
-    animation: bounce 1s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-  }
-
-  @keyframes bounce {
-    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-    40% { transform: translateY(-10px); }
-    60% { transform: translateY(-5px); }
-  }
-
-  .action-section {
-    display: flex;
-    justify-content: center;
+  .sets {
     margin-bottom: 2rem;
   }
 
-  .complete-btn {
-    background: linear-gradient(135deg, #059669, #10b981);
+  span {
+    display: inline-block;
+    border: 1px solid black;
+    padding: 10px 15px;
+    border-right-width: 0;
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+
+  span:first-child {
+    border-radius: 4px 0 0 4px;
+  }
+
+  span:last-child {
+    border-right-width: 1px;
+    border-radius: 0 4px 4px 0;
+  }
+
+  span.complete {
+    background-color: darkblue;
     color: white;
-    border: none;
-    padding: 1rem 2rem;
-    border-radius: 12px;
-    font-size: 1.25rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-    min-width: 200px;
   }
 
-  .complete-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+  span.rest {
+    background-color: yellow;
   }
 
-  .complete-btn:disabled {
-    background: #9ca3af;
-    cursor: not-allowed;
-    box-shadow: none;
-    transform: none;
+  span.go {
+    background-color: darkgreen;
+    color: white;
   }
 
-  .timer-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
-
-  .timer-item {
-    background: #f8fafc;
-    padding: 1.5rem;
-    border-radius: 12px;
-    text-align: center;
-    border: 2px solid #e2e8f0;
-  }
-
-  .timer-label {
-    display: block;
+  button {
+    padding: 10px 20px;
+    margin: 5px;
     font-size: 1rem;
-    font-weight: 600;
-    color: #64748b;
-    margin-bottom: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
   }
 
-  .timer-value {
-    display: block;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #1e293b;
-    font-variant-numeric: tabular-nums;
+  button:hover:not(:disabled) {
+    background-color: #f0f0f0;
+  }
+
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  p {
+    font-size: 1.1rem;
+    margin: 1rem 0;
   }
 
   .controls {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .control-group {
-    display: flex;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-  }
-
-  .control-btn, .primary-btn, .secondary-btn {
-    flex: 1;
-    min-width: 140px;
-    padding: 1rem 1.5rem;
-    border-radius: 12px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
-  }
-
-  .control-btn {
-    background: #f1f5f9;
-    color: #475569;
-    border-color: #cbd5e1;
-  }
-
-  .control-btn:hover {
-    background: #e2e8f0;
-    transform: translateY(-1px);
-  }
-
-  .primary-btn {
-    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-    color: white;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-  }
-
-  .primary-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
-  }
-
-  .primary-btn:disabled {
-    background: #9ca3af;
-    cursor: not-allowed;
-    box-shadow: none;
-    transform: none;
-  }
-
-  .secondary-btn {
-    background: #ef4444;
-    color: white;
-    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
-  }
-
-  .secondary-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+    margin-top: 2rem;
   }
 
   /* Responsive Design */
   @media (max-width: 768px) {
     .app {
       padding: 0.5rem;
-      align-items: stretch;
-    }
-
-    .container {
-      border-radius: 0;
-      padding: 1.5rem;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .sets-container {
-      gap: 0.25rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .set {
-      padding: 0.75rem 1rem;
-      font-size: 1.25rem;
-      min-width: 70px;
-    }
-
-    .complete-btn {
-      font-size: 1.125rem;
-      padding: 0.875rem 1.5rem;
-      min-width: 180px;
-    }
-
-    .timer-section {
-      grid-template-columns: 1fr;
-      gap: 0.75rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .timer-item {
-      padding: 1.25rem;
-    }
-
-    .timer-value {
-      font-size: 1.25rem;
-    }
-
-    .control-group {
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .control-btn, .primary-btn, .secondary-btn {
-      min-width: unset;
-      width: 100%;
-      padding: 0.875rem 1rem;
-      font-size: 1rem;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .container {
-      padding: 1rem;
     }
 
     h1 {
       font-size: 2rem;
     }
 
-    .sets-container {
-      gap: 0.125rem;
-    }
-
-    .set {
-      padding: 0.5rem 0.75rem;
+    span {
+      padding: 8px 12px;
       font-size: 1rem;
-      min-width: 60px;
     }
 
-    .timer-item {
-      padding: 1rem;
+    button {
+      padding: 8px 15px;
+      font-size: 0.9rem;
+      display: block;
+      width: 100%;
+      margin: 5px 0;
+    }
+  }
+
+  @media (max-width: 480px) {
+    h1 {
+      font-size: 1.5rem;
     }
 
-    .timer-label {
-      font-size: 0.875rem;
-    }
-
-    .timer-value {
-      font-size: 1.125rem;
+    span {
+      padding: 6px 10px;
+      font-size: 0.9rem;
     }
   }
 </style>
