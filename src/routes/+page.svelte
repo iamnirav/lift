@@ -89,7 +89,7 @@
 
 <div class="app">
   <div class="container">
-    <h1>Lift</h1>
+    <h1>Lift <span class="test-badge">🧪 Test Deploy</span></h1>
 
     <p class="sets">
       {#each derivedSets as set, index}
@@ -222,6 +222,15 @@
 
   .controls {
     margin-top: 2rem;
+  }
+
+  .test-badge {
+    font-size: 0.6em;
+    background-color: #007acc;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-weight: normal;
   }
 
   /* Responsive Design */
