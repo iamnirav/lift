@@ -90,6 +90,11 @@
 <div class="app">
   <div class="container">
     <h1>Lift</h1>
+    
+    <!-- TEST PR PREVIEW BANNER -->
+    <div class="test-banner">
+      🚀 TEST PR PREVIEW - Vercel deployment is working! 🎉
+    </div>
 
     <p class="sets">
       {#each derivedSets as set, index}
@@ -158,6 +163,24 @@
   h1 {
     font-size: 2.5rem;
     margin-bottom: 2rem;
+  }
+
+  .test-banner {
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
   }
 
   .sets {
