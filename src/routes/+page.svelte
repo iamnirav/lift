@@ -187,12 +187,16 @@
     <p>Total: {running ? formatDate(timeElapsed) : '00:00'}</p>
 
     <div class="controls">
-      <button onclick={getWeight}>Set Weight</button>
-      <button onclick={getSets}>Set Sets</button>
-      <button onclick={getRest}>Set Rest</button>
-      <button onclick={start} disabled={running || !weight}>Start</button>
-      <button onclick={reset}>Reset</button>
-      <button onclick={() => showHistory = !showHistory}>History</button>
+      <div class="controls-row">
+        <button onclick={getWeight}>Set Weight</button>
+        <button onclick={getSets}>Set Sets</button>
+        <button onclick={getRest}>Set Rest</button>
+      </div>
+      <div class="controls-row">
+        <button onclick={start} disabled={running || !weight}>Start</button>
+        <button onclick={reset}>Reset</button>
+        <button onclick={() => showHistory = !showHistory}>History</button>
+      </div>
     </div>
   </div>
 
@@ -393,6 +397,13 @@
 
   .controls {
     margin-top: 2rem;
+  }
+
+  .controls-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Space between buttons in a row */
+    margin-bottom: 10px; /* Space between rows */
   }
 
   /* Modal Styles */
