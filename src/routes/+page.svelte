@@ -150,6 +150,13 @@
   const derivedSets = $derived(sets.split(' ').map((item) => weight * +item))
   const timeElapsed = $derived(now - startTime)
   const restTimeElapsed = $derived(now - restStartTime)
+
+  // Helper to compute actual set weights from sets string and weight
+  function getSetWeights(sets: string, weight: number): number[] {
+    return sets
+      .split(' ')
+      .map((s) => Math.round(weight * parseFloat(s)) || 0)
+  }
 </script>
 
 <div class="app">
@@ -272,7 +279,7 @@
                 </div>
                 <div class="history-item-details">
                   <p><strong>Weight:</strong> {workout.weight} lbs</p>
-                  <p><strong>Sets:</strong> {workout.sets}</p>
+                  <p><strong>Sets:</strong> {getSetWeights(workout.sets, workout.weight).join(', ')} lbs</p>
                   <p><strong>Duration:</strong> {formatDate(workout.totalTime)}</p>
                   <p><strong>Date:</strong> {new Date(workout.date).toLocaleDateString()}</p>
                 </div>
