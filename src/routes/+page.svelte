@@ -325,36 +325,39 @@
   }
 
   .container {
-    max-width: 600px;
-    width: 100%;
+    max-width: 900px;
+    width: 90vw;
+    min-width: 340px;
     text-align: center;
+    padding: 3rem 2rem;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
   }
 
   h1 {
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
+    font-size: 3.5rem;
+    margin-bottom: 2.5rem;
   }
 
   .sets {
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
   }
 
   span {
     display: inline-block;
-    border: 1px solid black;
-    padding: 10px 15px;
+    border: 2px solid black;
+    padding: 18px 28px;
     border-right-width: 0;
-    font-size: 1.2rem;
-    font-weight: 500;
+    font-size: 2rem;
+    font-weight: 600;
   }
 
   span:first-child {
-    border-radius: 4px 0 0 4px;
+    border-radius: 8px 0 0 8px;
   }
 
   span:last-child {
-    border-right-width: 1px;
-    border-radius: 0 4px 4px 0;
+    border-right-width: 2px;
+    border-radius: 0 8px 8px 0;
   }
 
   span.complete {
@@ -372,17 +375,20 @@
   }
 
   button {
-    padding: 10px 20px;
-    margin: 5px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: 18px 32px;
+    margin: 8px;
+    font-size: 1.3rem;
+    border: 2px solid #ccc;
+    border-radius: 8px;
     background-color: white;
     cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s, border 0.2s;
   }
 
   button:hover:not(:disabled) {
     background-color: #f0f0f0;
+    border-color: #888;
   }
 
   button:disabled {
@@ -402,8 +408,8 @@
   .controls-row {
     display: flex;
     justify-content: center;
-    gap: 10px; /* Space between buttons in a row */
-    margin-bottom: 10px; /* Space between rows */
+    gap: 18px;
+    margin-bottom: 18px;
   }
 
   /* Modal Styles */
@@ -644,24 +650,26 @@
     .app {
       padding: 0.5rem;
     }
-
+    .container {
+      padding: 1.5rem 0.5rem;
+      max-width: 100vw;
+    }
     h1 {
-      font-size: 2rem;
+      font-size: 2.2rem;
     }
-
     span {
-      padding: 8px 12px;
-      font-size: 1rem;
+      padding: 10px 14px;
+      font-size: 1.1rem;
     }
-
     button {
-      padding: 8px 15px;
-      font-size: 0.9rem;
-      display: block;
-      width: 100%;
-      margin: 5px 0;
+      padding: 12px 10px;
+      font-size: 1rem;
+      border-radius: 6px;
     }
-
+    .controls-row {
+      gap: 8px;
+      margin-bottom: 10px;
+    }
     .modal {
       margin: 1rem;
       padding: 1.5rem;
@@ -698,15 +706,21 @@
   }
 
   @media (max-width: 480px) {
+    .container {
+      padding: 0.5rem 0.2rem;
+    }
     h1 {
-      font-size: 1.5rem;
+      font-size: 1.3rem;
     }
-
     span {
-      padding: 6px 10px;
-      font-size: 0.9rem;
+      padding: 6px 7px;
+      font-size: 0.8rem;
     }
-
+    button {
+      padding: 8px 5px;
+      font-size: 0.8rem;
+      border-radius: 5px;
+    }
     .modal {
       padding: 1rem;
     }
